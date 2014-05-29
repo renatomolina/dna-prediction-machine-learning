@@ -6,6 +6,26 @@ fprintf('Loading database...\n');
 load('input.mat');
 fprintf('Database loaded with success!\n');
 
+%% Preparing Y for 3 rounds for Linear e Logistic Regression
+Y1 = Y;
+Y2 = Y;
+Y3 = Y;
+for i = 1:size(Y)
+    if Y1(i) > 1
+        Y1(i) = 0;
+    end
+    if Y2(i) < 2 || Y2(i) > 2 
+        Y2(i) = 0;
+    else
+        Y2(i) = 1;
+    end
+    if Y3(i) < 2
+        Y3(i) = 0;
+    else
+        Y3(i) = 1;
+    end
+end
+
 %% KNN
 fprintf('\nRunning KNN...\n');
 accuracy_knn = 0;
@@ -15,6 +35,10 @@ pause;
 
 %% Linear Regression
 fprintf('\nRunning Linear Regression...\n');
+%accuracy_linear1 = linear_regression(X,Y1);
+%accuracy_linear2 = linear_regression(X,Y2);
+%accuracy_linear3 = linear_regression(X,Y3);
+%accuracy_linear = accuracy_linear1 + accuracy_linear2 + accuracy_linear3;
 accuracy_linear = 0;
 fprintf('Linear Regression accuracy = %.2f percent!\n', accuracy_linear);
 fprintf('Press any key to continue...\n');
@@ -22,7 +46,11 @@ pause;
 
 %% Logistic Regression
 fprintf('\nRunning Logistic Regression...\n');
-accuracy_logistic = 0;
+%accuracy_logistic = 0;
+accuracy_logistic1 = logistic_regression(X,Y1);
+accuracy_logistic2 = logistic_regression(X,Y2);
+accuracy_logistic3 = logistic_regression(X,Y3);
+accuracy_logistic = accuracy_logistic1 + accuracy_logistic2 + accuracy_logistic3;
 fprintf('Logistic Regression accuracy = %.2f percent!\n', accuracy_logistic);
 fprintf('Press any key to continue...\n');
 pause;
