@@ -50,7 +50,7 @@ fprintf('\nRunning Logistic Regression...\n');
 accuracy_logistic1 = logistic_regression(X,Y1);
 accuracy_logistic2 = logistic_regression(X,Y2);
 accuracy_logistic3 = logistic_regression(X,Y3);
-accuracy_logistic = accuracy_logistic1 + accuracy_logistic2 + accuracy_logistic3;
+accuracy_logistic = (accuracy_logistic1 + accuracy_logistic2 + accuracy_logistic3)/3;
 fprintf('Logistic Regression accuracy = %.2f percent!\n', accuracy_logistic);
 fprintf('Press any key to continue...\n');
 pause;
