@@ -8,7 +8,7 @@ fprintf('Database loaded with success!\n');
 
 %% KNN
 fprintf('\nRunning KNN...\n');
-accuracy_knn = 0;
+accuracy_knn = KNN_main(X,Y);
 fprintf('KNN accuracy = %.2f percent!\n', accuracy_knn);
 fprintf('Press any key to continue...\n');
 pause;
