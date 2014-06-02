@@ -9,28 +9,28 @@ fprintf('Database loaded with success!\n');
 %% KNN
 fprintf('\nRunning KNN...\n');
 accuracy_knn = 0;
+%accuracy_knn = KNN_main(X_training,Y_training, X_test, Y_test);
 fprintf('KNN accuracy = %.2f percent!\n', accuracy_knn);
-fprintf('Press any key to continue...\n');
-pause;
-
-%% Linear Regression
-fprintf('\nRunning Linear Regression...\n');
-accuracy_linear = 0;
-fprintf('Linear Regression accuracy = %.2f percent!\n', accuracy_linear);
 fprintf('Press any key to continue...\n');
 pause;
 
 %% Logistic Regression
 fprintf('\nRunning Logistic Regression...\n');
 accuracy_logistic = 0;
+%accuracy_logistic1 = logistic_regression(X,Y1);
+%accuracy_logistic2 = logistic_regression(X,Y2);
+%accuracy_logistic3 = logistic_regression(X,Y3);
+%accuracy_logistic = accuracy_logistic1 + accuracy_logistic2 + accuracy_logistic3;
 fprintf('Logistic Regression accuracy = %.2f percent!\n', accuracy_logistic);
 fprintf('Press any key to continue...\n');
 pause;
 
 %% Naive Bayes
 fprintf('\nRunning Naive Bayes...\n');
-accuracy_naive = naive_bayes(X,Y);
-fprintf('Naive Bayes accuracy = %.2f percent!\n', accuracy_naive);
+[ training_accuracy, test_accuracy, learning_curve ] = naive_bayes(X_training,Y_training, X_test, Y_test);
+fprintf('Naive Bayes accuracy with training data = %.2f percent!\n', training_accuracy);
+fprintf('Naive Bayes accuracy with test data = %.2f percent!\n', test_accuracy);
+plot(learning_curve);
 fprintf('Press any key to continue...\n');
 pause;
 
