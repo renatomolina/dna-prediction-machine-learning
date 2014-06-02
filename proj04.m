@@ -6,59 +6,40 @@ fprintf('Loading database...\n');
 load('input.mat');
 fprintf('Database loaded with success!\n');
 
-%% Preparing Y for 3 rounds for Linear e Logistic Regression
-Y1 = Y;
-Y2 = Y;
-Y3 = Y;
-for i = 1:size(Y)
-    if Y1(i) > 1
-        Y1(i) = 0;
-    end
-    if Y2(i) < 2 || Y2(i) > 2 
-        Y2(i) = 0;
-    else
-        Y2(i) = 1;
-    end
-    if Y3(i) < 2
-        Y3(i) = 0;
-    else
-        Y3(i) = 1;
-    end
-end
+%% Preparing Y for 3 rounds of Logistic Regression
+[Y_training_1, Y_training_2, Y_training_3] = logistic_data_binarization(Y_training);
+[Y_test_1, Y_test_2, Y_test_3] = logistic_data_binarization(Y_test);
 
 %% KNN
 fprintf('\nRunning KNN...\n');
 accuracy_knn = 0;
+%accuracy_knn = KNN_main(X_training,Y_training, X_test, Y_test);
 fprintf('KNN accuracy = %.2f percent!\n', accuracy_knn);
-fprintf('Press any key to continue...\n');
-pause;
-
-%% Linear Regression
-fprintf('\nRunning Linear Regression...\n');
-%accuracy_linear1 = linear_regression(X,Y1);
-%accuracy_linear2 = linear_regression(X,Y2);
-%accuracy_linear3 = linear_regression(X,Y3);
-%accuracy_linear = accuracy_linear1 + accuracy_linear2 + accuracy_linear3;
-accuracy_linear = 0;
-fprintf('Linear Regression accuracy = %.2f percent!\n', accuracy_linear);
 fprintf('Press any key to continue...\n');
 pause;
 
 %% Logistic Regression
 fprintf('\nRunning Logistic Regression...\n');
 %accuracy_logistic = 0;
-accuracy_logistic1 = logistic_regression(X,Y1);
-accuracy_logistic2 = logistic_regression(X,Y2);
-accuracy_logistic3 = logistic_regression(X,Y3);
-accuracy_logistic = (accuracy_logistic1 + accuracy_logistic2 + accuracy_logistic3)/3;
-fprintf('Logistic Regression accuracy = %.2f percent!\n', accuracy_logistic);
+[training_accuracy_logistic1, test_accuracy_logistic1, learning_curve ]= logistic_regression(X_training,Y_training_1, X_test, Y_test_1);
+plot(learning_curve);
+[training_accuracy_logistic2, test_accuracy_logistic2, learning_curve ]= logistic_regression(X_training,Y_training_2, X_test, Y_test_2);
+plot(learning_curve);
+[training_accuracy_logistic3, test_accuracy_logistic3, learning_curve ]= logistic_regression(X_training,Y_training_3, X_test, Y_test_3);
+plot(learning_curve);
+training_accuracy_logistic = (training_accuracy_logistic1 + training_accuracy_logistic2 + training_accuracy_logistic3)/3;
+test_accuracy_logistic = (test_accuracy_logistic1 + test_accuracy_logistic2 + test_accuracy_logistic3)/3;
+fprintf('Logistic Regression accuracy with training data= %.2f percent!\n', training_accuracy_logistic);
+fprintf('Logistic Regression accuracy with test data= %.2f percent!\n', test_accuracy_logistic);
 fprintf('Press any key to continue...\n');
 pause;
 
 %% Naive Bayes
 fprintf('\nRunning Naive Bayes...\n');
-accuracy_naive = naive_bayes(X,Y);
-fprintf('Naive Bayes accuracy = %.2f percent!\n', accuracy_naive);
+[ training_accuracy, test_accuracy, learning_curve ] = naive_bayes(X_training,Y_training, X_test, Y_test);
+fprintf('Naive Bayes accuracy with training data = %.2f percent!\n', training_accuracy);
+fprintf('Naive Bayes accuracy with test data = %.2f percent!\n', test_accuracy);
+plot(learning_curve);
 fprintf('Press any key to continue...\n');
 pause;
 
