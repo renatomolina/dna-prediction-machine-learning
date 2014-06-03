@@ -22,15 +22,31 @@ pause;
 fprintf('\nRunning Logistic Regression...\n');
 %accuracy_logistic = 0;
 [training_accuracy_logistic1, test_accuracy_logistic1, learning_curve ]= logistic_regression(X_training,Y_training_1, X_test, Y_test_1);
-plot(learning_curve);
+plot_learning_curve(learning_curve, 'Logistic Regression - Class EI');
 [training_accuracy_logistic2, test_accuracy_logistic2, learning_curve ]= logistic_regression(X_training,Y_training_2, X_test, Y_test_2);
-plot(learning_curve);
+plot_learning_curve(learning_curve, 'Logistic Regression - Class IE');
 [training_accuracy_logistic3, test_accuracy_logistic3, learning_curve ]= logistic_regression(X_training,Y_training_3, X_test, Y_test_3);
-plot(learning_curve);
+plot_learning_curve(learning_curve, 'Logistic Regression - Class N');
 training_accuracy_logistic = (training_accuracy_logistic1 + training_accuracy_logistic2 + training_accuracy_logistic3)/3;
 test_accuracy_logistic = (test_accuracy_logistic1 + test_accuracy_logistic2 + test_accuracy_logistic3)/3;
 fprintf('Logistic Regression accuracy with training data= %.2f percent!\n', training_accuracy_logistic);
 fprintf('Logistic Regression accuracy with test data= %.2f percent!\n', test_accuracy_logistic);
+fprintf('Press any key to continue...\n');
+pause;
+
+%% Logistic Regression with Regularization
+fprintf('\nRunning Logistic Regression...\n');
+%accuracy_logistic = 0;
+[training_accuracy_logistic1, test_accuracy_logistic1, learning_curve ]= logistic_regression_reg(X_training,Y_training_1, X_test, Y_test_1);
+plot_learning_curve(learning_curve, 'Logistic Regression with Regularization - Class EI');
+[training_accuracy_logistic2, test_accuracy_logistic2, learning_curve ]= logistic_regression_reg(X_training,Y_training_2, X_test, Y_test_2);
+plot_learning_curve(learning_curve, 'Logistic Regression with Regularization - Class IE');
+[training_accuracy_logistic3, test_accuracy_logistic3, learning_curve ]= logistic_regression_reg(X_training,Y_training_3, X_test, Y_test_3);
+plot_learning_curve(learning_curve, 'Logistic Regression with Regularization - Class N');
+training_accuracy_logistic = (training_accuracy_logistic1 + training_accuracy_logistic2 + training_accuracy_logistic3)/3;
+test_accuracy_logistic = (test_accuracy_logistic1 + test_accuracy_logistic2 + test_accuracy_logistic3)/3;
+fprintf('Logistic Regression with Regularization accuracy with training data= %.2f percent!\n', training_accuracy_logistic);
+fprintf('Logistic Regression with Regularization accuracy with test data= %.2f percent!\n', test_accuracy_logistic);
 fprintf('Press any key to continue...\n');
 pause;
 
@@ -39,7 +55,7 @@ fprintf('\nRunning Naive Bayes...\n');
 [ training_accuracy, test_accuracy, learning_curve ] = naive_bayes(X_training,Y_training, X_test, Y_test);
 fprintf('Naive Bayes accuracy with training data = %.2f percent!\n', training_accuracy);
 fprintf('Naive Bayes accuracy with test data = %.2f percent!\n', test_accuracy);
-plot(learning_curve);
+plot_learning_curve(learning_curve, 'Naive Bayes');
 fprintf('Press any key to continue...\n');
 pause;
 
