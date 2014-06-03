@@ -1,25 +1,23 @@
-function [ accuracy ] = KNN_main( X, Y)
-
-    K = 7;   
-    s = size(X,1);
-
-    indices = crossvalind('Kfold',s,10);
-    hit = zeros(10,1);
-    for i = 1:10
-        test = (indices == i); train = ~test;
-        sample = X(test,:);
-        classes = Y(test);
-        count = 0;
-        l = size(sample,1);
-        for j=1:l
-            class = knn(sample(j,:),X(train,:),Y,K);
-            if class == classes(j)
-                count = count+1;
-            end 
+function [accuracy,C,I] = KNN_main(X_training,Y_training, X_test, Y_test)    
+    l = size(X_test,1);
+    hit = zeros(5,1);
+    count = 0;
+    K = 3;
+    for j=1:5  
+        for i=1:l
+                class = knn(X_test(i,:),X_training,Y_training,K);
+                if class == Y_test
+                    count = count+1;
+                end 
         end
-        hit(i) = (count/l)*100;
+        hit(j) = (count/l)*100;
+        K = K+2;
+        count = 0;
     end
-        result = mean(hit);
-        accuracy = result(1);
+    result = mean(hit);
+    accuracy = result(1);
+    [C,I] = max(hit);
+
+        
 end
 
