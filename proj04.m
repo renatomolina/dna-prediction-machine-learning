@@ -3,8 +3,8 @@ clear ; close all; clc
 
 %% Debug
 run_knn = true;
-run_logistic = false;
-run_logistic_reg = false;
+run_logistic = true;
+run_logistic_reg = true;
 run_naive = true;
 run_ann = false;
 run_svm = false;
