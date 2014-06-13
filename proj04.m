@@ -2,7 +2,7 @@
 clear ; close all; clc
 
 %% Debug
-run_knn = false;
+run_knn = true;
 run_logistic = false;
 run_logistic_reg = false;
 run_naive = true;
@@ -14,13 +14,25 @@ fprintf('Loading database...\n');
 load('input.mat');
 fprintf('Database loaded with success!\n');
 
-
-
 %% KNN
 if run_knn
     fprintf('\nRunning KNN...\n');
-    accuracy_knn = KNN_main_(X_training,Y_training, X_test, Y_test);
-    fprintf('KNN accuracy = %.2f percent!\n', accuracy_knn);
+    %% Retrieving the data that corresponds to each class on the Database
+    teste1 = X(Y==1,:);
+    teste2 = X(Y==2,:);
+    teste3 = X(Y==3,:);
+    %% Running the KNN for each class and finding the respective accuracy.
+    [accuracy_knn1,C,I] = KNN_main(X,Y, teste1, 1);
+    fprintf('KNN mean accuracy for class EI = %.2f percent!\n', accuracy_knn1);
+    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
+    [accuracy_knn2,C,I] = KNN_main(X,Y, teste2, 2);
+    fprintf('KNN mean accuracy for class IE = %.2f percent!\n', accuracy_knn2);
+    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
+    [accuracy_knn3,C,I] = KNN_main(X,Y, teste3, 3);
+    fprintf('KNN mean accuracy for class N = %.2f percent!\n', accuracy_knn3);
+    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
+    accuracy_knn = (accuracy_knn1+accuracy_knn2+accuracy_knn3)/3;
+    fprintf('KNN overall accuracy = %.2f percent!\n', accuracy_knn);
     fprintf('Press any key to continue...\n');
     pause;
 end
@@ -94,6 +106,7 @@ if run_svm
     fprintf('Press any key to continue...\n');
     pause;
 end
+
 %% Finishing
 fprintf('No more Learning Machine methods to run!\n');
 fprintf('Press any key to finish execution...\n');
