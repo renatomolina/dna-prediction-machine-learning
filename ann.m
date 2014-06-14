@@ -9,12 +9,12 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         Y_local = Y_training(start:finish,:);
 
         %% Training
-        % Neurônios de entrada (s1) = 20
+        % Neurônios de entrada (s1) = 21 +1 (viés)
         % Neurônios de saída (sn) = 3
         % Camadas intermediárias (L) = 1
-        % Neurônios da camada intermediária = 20
+        % Neurônios da camada intermediária = 20 +1 (viés)
 
-        % Inicializar pesos com valores aleatórios (theta) próximos de zero
+        % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
 
         % Chamar func forward_propagation
 
