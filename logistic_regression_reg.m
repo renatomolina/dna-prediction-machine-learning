@@ -15,7 +15,7 @@ function [ training_accuracy, test_accuracy, learning_curve ] = logistic_regress
         initial_theta = zeros(size(X_local_training, 2), 1);
         lambda = 1;
         [cost, gradient] = logistic_cost_function_reg(initial_theta, X_local_training, Y_local, lambda);
-        options = optimset('GradObj', 'on', 'MaxIter', 400);
+        options = optimset('GradObj', 'on', 'MaxIter', 400, 'Display', 'off');
         [theta, J, exit_flag] = fminunc(@(t)(logistic_cost_function_reg(t, X_local_training, Y_local, lambda)), initial_theta, options);
         
         %% Test with Training
