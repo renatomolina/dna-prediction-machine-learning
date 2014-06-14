@@ -2,11 +2,11 @@
 clear ; close all; clc
 
 %% Debug
-run_knn = true;
-run_logistic = true;
-run_logistic_reg = true;
-run_naive = true;
-run_ann = false;
+run_knn = false;
+run_logistic = false;
+run_logistic_reg = false;
+run_naive = false;
+run_ann = true;
 run_svm = false;
 
 %% Loading database
