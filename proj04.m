@@ -2,17 +2,19 @@
 clear ; close all; clc
 
 %% Debug
-run_knn = true;
-run_logistic = true;
-run_logistic_reg = true;
-run_naive = true;
+run_knn = false;
+run_logistic = false;
+run_logistic_reg = false;
+run_naive = false;
 run_ann = false;
-run_svm = false;
+run_svm = true;
 
 %% Loading database
 fprintf('Loading database...\n');
-load('input.mat');
+load('data_nucleotides_codification1');
 fprintf('Database loaded with success!\n');
+
+
 
 %% KNN
 if run_knn
@@ -33,8 +35,8 @@ if run_knn
     fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
     accuracy_knn = (accuracy_knn1+accuracy_knn2+accuracy_knn3)/3;
     fprintf('KNN overall accuracy = %.2f percent!\n', accuracy_knn);
-    fprintf('Press any key to continue...\n');
-    pause;
+%     fprintf('Press any key to continue...\n');
+%     pause;
 end
 
 %% Logistic Regression
@@ -53,8 +55,8 @@ if run_logistic
     test_accuracy_logistic = (test_accuracy_logistic1 + test_accuracy_logistic2 + test_accuracy_logistic3)/3;
     fprintf('Logistic Regression accuracy with training data= %.2f percent!\n', training_accuracy_logistic);
     fprintf('Logistic Regression accuracy with test data= %.2f percent!\n', test_accuracy_logistic);
-    fprintf('Press any key to continue...\n');
-    pause;
+%     fprintf('Press any key to continue...\n');
+%     pause;
 end
 
 %% Logistic Regression with Regularization
@@ -74,8 +76,8 @@ if run_logistic_reg
     test_accuracy_logistic = (test_accuracy_logistic1 + test_accuracy_logistic2 + test_accuracy_logistic3)/3;
     fprintf('Logistic Regression with Regularization accuracy with training data= %.2f percent!\n', training_accuracy_logistic);
     fprintf('Logistic Regression with Regularization accuracy with test data= %.2f percent!\n', test_accuracy_logistic);
-    fprintf('Press any key to continue...\n');
-    pause;
+%     fprintf('Press any key to continue...\n');
+%     pause;
 end
 
 %% Naive Bayes
@@ -85,8 +87,8 @@ if run_naive
     fprintf('Naive Bayes accuracy with training data = %.2f percent!\n', training_accuracy);
     fprintf('Naive Bayes accuracy with test data = %.2f percent!\n', test_accuracy);
     plot_learning_curve(learning_curve, 'Naive Bayes');
-    fprintf('Press any key to continue...\n');
-    pause;
+%     fprintf('Press any key to continue...\n');
+%     pause;
 end
 
 %% Artificial Neural Network
@@ -101,12 +103,12 @@ end
 %% SVM
 if run_svm
     fprintf('\nRunning SVM...\n');
-    accuracy_svm = 0;
-    fprintf('SVM accuracy = %.2f percent!\n', accuracy_svm);
+    parameters = '-t 1 -r 32 -g 4 -q';
+    accuracy_svm = SVM(X, Y, parameters);
+    fprintf('SVM accuracy = %.2f\n',accuracy_svm);
     fprintf('Press any key to continue...\n');
     pause;
 end
-
 %% Finishing
 fprintf('No more Learning Machine methods to run!\n');
 fprintf('Press any key to finish execution...\n');
