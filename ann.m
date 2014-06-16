@@ -3,7 +3,7 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
 %   Detailed explanation goes here
     learning_curve = zeros(10,2);
 
-    [m, n] = size(X_local);
+    [m, n] = size(X_training);
     X_training = [ones(m, 1) X_training];
 
     for i=1:10
@@ -13,23 +13,28 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         Y_local_training = Y_training(start:finish,:);
 
         %% Training
-        % Neurônios de entrada (s1) = 21 +1 (viés)
+        % Neurônios de entrada (s1) = 61
         % Neurônios de saída (sn) = 3
-        % Camadas intermediárias (L) = 1
-        % Neurônios da camada intermediária = 20 +1 (viés)
-
+        % Camadas = 3
+        L = 3;
+        % Neurônios da camada intermediária = 61
+        sl =61;
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
-        L = 1;
-        theta = rand(21, L)/100;
-        lambda = 1;
-
-        % função custo J
-        cost = ann_cost_function(initial_theta, lambda, X_local_training, Y_local);
-        options = optimset('GradObj', 'on', 'MaxIter', 400);
-        [theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
-
+        %initial_theta = rand(L, sl);
+        initial_theta = -1 + (1-(-1)).*rand(L,sl);
         % Chamar func forward_propagation
-
+        [m,n] = size(X_local_training);
+        H = zeros(m);
+        for i=1:m
+            H(i) = ann_forward(X_local_training(i,:), initial_theta, L, sl);
+        end
+        
+        % função custo J
+        %lambda = 1;
+        %cost = ann_cost_function(initial_theta, lambda, X_local_training, Y_local);
+        %options = optimset('GradObj', 'on', 'MaxIter', 400);
+        %[theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
+        
         % Chamar func back_propagation
 
         %% Test with Training Set
