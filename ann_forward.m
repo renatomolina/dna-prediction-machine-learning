@@ -1,4 +1,4 @@
-function h = ann_forward( X, theta, L, sl )
+function h = ann_forward( X, theta, L, sl, K )
     A =  zeros(sl, L);
     Z = zeros(sl);
     A(:,1) = X;
@@ -6,6 +6,6 @@ function h = ann_forward( X, theta, L, sl )
         Z = theta(i,:) * A(:,i-1);
         A(:,i) = ann_sigmoid(Z);
     end
-    h =A(1,L);
+    h =A(K,L);
 end
 

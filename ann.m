@@ -15,6 +15,7 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         %% Training
         % Neurônios de entrada (s1) = 61
         % Neurônios de saída (sn) = 1
+        K = 1;
         % Camadas = 3
         L = 3;
         % Neurônios da camada intermediária = 61
@@ -24,9 +25,9 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         initial_theta = -1 + (1-(-1)).*rand(L,sl);
         % Chamar func forward_propagation
         [m,n] = size(X_local_training);
-        H = zeros(m,1);
+        H = zeros(m,K);
         for i=1:m
-            H(i,1) = ann_forward(X_local_training(i,:), initial_theta, L, sl);
+            H(i,1) = ann_forward(X_local_training(i,:), initial_theta, L, sl, K);
         end
         
         % função custo J
