@@ -27,7 +27,8 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         [m,n] = size(X_local_training);
         H = zeros(m,K);
         for i=1:m
-            H(i,1) = ann_forward(X_local_training(i,:), initial_theta, L, sl, K);
+            A = ann_forward(X_local_training(i,:), initial_theta, L, sl);
+            H(i,1) = A(K,L);
         end
         
         % função custo J
