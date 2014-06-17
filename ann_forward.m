@@ -1,10 +1,11 @@
 function A = ann_forward( X, theta, L, sl )
     A =  zeros(sl, L);
-    Z = zeros(sl);
     A(:,1) = X;
-    for i=(2:L)
-        Z = theta(i,:) * A(:,i-1);
-        A(:,i) = ann_sigmoid(Z);
+    for l=(2:L)
+        for i=(1:sl)
+            Z = theta(i,:, l-1) * A(:,l-1);
+            A(i,l) = ann_sigmoid(Z);
+        end
     end
 end
 

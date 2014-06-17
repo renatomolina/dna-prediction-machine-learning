@@ -22,12 +22,12 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         sl =61;
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
         %initial_theta = rand(L, sl);
-        initial_theta = -1 + (1-(-1)).*rand(L,sl);
+        theta = -1 + (1-(-1)).*rand(sl, sl, L-1);
         % Chamar func forward_propagation
         [m,n] = size(X_local_training);
         H = zeros(m,K);
         for i=1:m
-            A = ann_forward(X_local_training(i,:), initial_theta, L, sl);
+            A = ann_forward(X_local_training(i,:), theta, L, sl);
             H(i,1) = A(K,L);
         end
         
