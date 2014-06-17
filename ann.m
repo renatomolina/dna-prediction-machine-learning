@@ -12,32 +12,49 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         X_local_training = X_training(start:finish,:);
         Y_local_training = Y_training(start:finish,:);
 
-        %% Training
-        % Neurônios de entrada (s1) = 61
-        % Neurônios de saída (sn) = 1
-        K = 1;
+        %% Training Parameters
         % Camadas = 3
         L = 3;
-        % Neurônios da camada intermediária = 61
-        sl =61;
-        % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
-        %initial_theta = rand(L, sl);
-        theta = -1 + (1-(-1)).*rand(sl, sl, L-1);
-        % Chamar func forward_propagation
-        [m,n] = size(X_local_training);
-        H = zeros(m,K);
-        for i=1:m
-            A = ann_forward(X_local_training(i,:), theta, L, sl);
-            H(i,1) = A(K,L);
+        s = zeros(L, 1);
+        % Neurônios de entrada (s1) = 61
+        s(1) = 61;
+        % Neurônios na camada intermediária
+        for i=(2:L-1)
+            s(i) = 61;
         end
+        % Neurônios de saída (sn) = 1
+        s(3) = 1;
+        K = s(3);
         
+        %% Training
+        [m,n] = size(X_local_training);
+        % Inicializar Delta com zeros
+        %delta = zeros(s, s, L);
+        % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
+        theta = cell(L-1, 1);
+        for i=(1:size(s)-1)
+            theta{i} = rand(s(i),n);
+            %theta{i} = -1 + (1-(-1)).*rand(s(i),n);
+        end        
+        
+        H = zeros(m,K);
+        % Para cada Amostra
+        for i=1:m
+            x = X_local_training(i,:);
+            y = Y_local_training(i);
+            % Forward
+            a = ann_forward(x, theta, L);
+            %H(i,1) = a(K,L);
+            % Backpropagation
+            %sigma = ann_backpropagation(a, y, theta, L, s);
+            % Acumular Derivadas parciais
+        end
+        % Calcular a derivada da função custo
         % função custo J
         %lambda = 1;
-        %cost = ann_cost_function(initial_theta, lambda, X_local_training, Y_local);
+        %cost = ann_cost_function(theta, lambda, X_local_training, Y_local);
         %options = optimset('GradObj', 'on', 'MaxIter', 400);
         %[theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
-        
-        % Chamar func back_propagation
 
         %% Test with Training Set
         result = zeros(size(X_local_training,1),1);
