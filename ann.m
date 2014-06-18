@@ -29,22 +29,25 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         %% Training
         [m,n] = size(X_local_training);
         % Inicializar Delta com zeros
-        %delta = zeros(s, s, L);
+        delta = cell(1,L);
+        for i=(1:L)
+            delta{i} = zeros(s(i),n);
+        end
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
         theta = cell(L-1, 1);
         for i=(1:size(s)-1)
             theta{i} = rand(s(i+1),n);
             %theta{i} = -1 + (1-(-1)).*rand(s(i),n);
-        end        
+        end
         
-        H = zeros(m,K);
+        h = zeros(m,K);
         % Para cada Amostra
         for i=1:m
             x = X_local_training(i,:);
             y = Y_local_training(i);
-            % Forward
+            % Forward Propagation
             a = ann_forward(x, theta, L);
-            %H(i,1) = a(K,L);
+            h(i,:) = a{L}';
             % Backpropagation
             sigma = ann_backpropagation(a, y, theta, L);
             % Acumular Derivadas parciais
