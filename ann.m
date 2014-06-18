@@ -33,7 +33,7 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
         theta = cell(L-1, 1);
         for i=(1:size(s)-1)
-            theta{i} = rand(s(i),n);
+            theta{i} = rand(s(i+1),n);
             %theta{i} = -1 + (1-(-1)).*rand(s(i),n);
         end        
         
@@ -46,7 +46,7 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
             a = ann_forward(x, theta, L);
             %H(i,1) = a(K,L);
             % Backpropagation
-            %sigma = ann_backpropagation(a, y, theta, L, s);
+            sigma = ann_backpropagation(a, y, theta, L);
             % Acumular Derivadas parciais
         end
         % Calcular a derivada da função custo
