@@ -29,9 +29,9 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         %% Training
         [m,n] = size(X_local_training);
         % Inicializar Delta com zeros
-        delta = cell(1,L);
-        for i=(1:L)
-            delta{i} = zeros(s(i),1);
+        delta = cell(1,L-1);
+        for i=(1:L-1)
+            delta{i} = zeros(s(i+1),1);
         end
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
         theta = cell(L-1, 1);
@@ -52,12 +52,12 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
             sigma = ann_backpropagation(a, y, theta, L);
             % Acumular Derivadas parciais
             for l=(1:L-1)
-                delta{l} = delta{l} + a{l} .* sigma{l+1};
+                delta{l} = delta{l} + a{l}' * sigma{l+1};
             end
-            %lambda = 1;
-            %cost = ann_cost_function(h, K, X_local_training, Y_local_training, lambda, theta);
-            %options = optimset('GradObj', 'on', 'MaxIter', 400);
-            %[theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
+            lambda = 1;
+            [J, gradient] = ann_cost_function(h, Y_local_training, theta, L, lambda);
+            options = optimset('GradObj', 'on', 'MaxIter', 400);
+            [theta, J] = fminunc(@(t)(ann_cost_function(h, Y_local_training, theta, L, lambda)), theta, options);
         end
 
         %% Test with Training Set
