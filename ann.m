@@ -23,21 +23,21 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
             s(i) = 61;
         end
         % Neurônios de saída (sn) = 1
-        s(3) = 1;
-        K = s(3);
+        s(L) = 1;
+        K = s(L);
         
         %% Training
         [m,n] = size(X_local_training);
         % Inicializar Delta com zeros
         delta = cell(1,L);
         for i=(1:L)
-            delta{i} = zeros(s(i),n);
+            delta{i} = zeros(s(i),1);
         end
         % Inicializar pesos com valores aleatórios (theta = rand(20 + 1, L)) próximos de zero
         theta = cell(L-1, 1);
         for i=(1:size(s)-1)
-            theta{i} = rand(s(i+1),n);
-            %theta{i} = -1 + (1-(-1)).*rand(s(i),n);
+            %theta{i} = rand(s(i+1),n);
+            theta{i} = -1 + (1-(-1)).*rand(s(i+1),n);
         end
         
         h = zeros(m,K);
@@ -47,17 +47,18 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
             y = Y_local_training(i);
             % Forward Propagation
             a = ann_forward(x, theta, L);
-            h(i,:) = a{L}';
+            h(i) = a{L};
             % Backpropagation
             sigma = ann_backpropagation(a, y, theta, L);
             % Acumular Derivadas parciais
+            for l=(1:L-1)
+                delta{l} = delta{l} + a{l} .* sigma{l+1};
+            end
+            %lambda = 1;
+            %cost = ann_cost_function(h, K, X_local_training, Y_local_training, lambda, theta);
+            %options = optimset('GradObj', 'on', 'MaxIter', 400);
+            %[theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
         end
-        % Calcular a derivada da função custo
-        % função custo J
-        %lambda = 1;
-        %cost = ann_cost_function(theta, lambda, X_local_training, Y_local);
-        %options = optimset('GradObj', 'on', 'MaxIter', 400);
-        %[theta, cost] = fminunc(@(t)(ann_cost_function(t, X_local_training, Y_local)), initial_theta, options);
 
         %% Test with Training Set
         result = zeros(size(X_local_training,1),1);
