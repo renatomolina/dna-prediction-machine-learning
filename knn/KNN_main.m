@@ -6,7 +6,7 @@ function [accuracy,C,I] = KNN_main(X_training,Y_training, X_test, Y_test)
     for j=1:5  
         for i=1:l
                 class = knn(X_test(i,:),X_training,Y_training,K);
-                if class == Y_test
+                if class == Y_test(i)
                     count = count+1;
                 end 
         end

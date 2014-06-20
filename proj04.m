@@ -47,23 +47,30 @@ fprintf('Database loaded with success!\n');
 
 %% KNN
 if run_knn
-    fprintf('\nRunning KNN...\n');
+   fprintf('\nRunning KNN...\n');
     %% Retrieving the data that corresponds to each class on the Database
     teste1 = X(Y==1,:);
+    teste1_Y = ones(size(teste1));
     teste2 = X(Y==2,:);
+    teste2_Y = ones(size(teste2))*2;
     teste3 = X(Y==3,:);
+    teste3_Y = ones(size(teste3))*3;
+    %% Running the KNN for the entire set of training and test data
+    [accuracy_knn1,C,I] = KNN_main(X_training,Y_training, X_test, Y_test);
+    fprintf('KNN mean accuracy  = %.2f percent!\n', accuracy_knn1);
+    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
     %% Running the KNN for each class and finding the respective accuracy.
-    [accuracy_knn1,C,I] = KNN_main(X,Y, teste1, 1);
-    fprintf('KNN mean accuracy for class EI = %.2f percent!\n', accuracy_knn1);
+    [accuracy_knn1,C,I] = KNN_main(X,Y, teste1, teste1_Y );
+    fprintf('KNN mean accuracy for class IE = %.2f percent!\n', accuracy_knn1);
     fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
-    [accuracy_knn2,C,I] = KNN_main(X,Y, teste2, 2);
-    fprintf('KNN mean accuracy for class IE = %.2f percent!\n', accuracy_knn2);
+    [accuracy_knn2,C,I] = KNN_main(X,Y, teste2, teste2_Y );
+    fprintf('KNN mean accuracy for class EI = %.2f percent!\n', accuracy_knn2);
     fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
-    [accuracy_knn3,C,I] = KNN_main(X,Y, teste3, 3);
+    [accuracy_knn3,C,I] = KNN_main(X,Y, teste3, teste3_Y );
     fprintf('KNN mean accuracy for class N = %.2f percent!\n', accuracy_knn3);
     fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
-    accuracy_knn = (accuracy_knn1+accuracy_knn2+accuracy_knn3)/3;
-    fprintf('KNN overall accuracy = %.2f percent!\n', accuracy_knn);
+    fprintf('Press any key to continue...\n');
+    pause;
 end
 
 %% Logistic Regression
