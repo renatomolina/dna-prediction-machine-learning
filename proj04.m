@@ -7,14 +7,12 @@ run_logistic = false;
 run_logistic_reg = false;
 run_naive = false;
 run_ann = false;
-run_svm = true;
+run_svm = false;
 
 %% Loading database
 fprintf('Loading database...\n');
-load('data_nucleotides_codification1');
+load('data_nucleotides_codification1.mat');
 fprintf('Database loaded with success!\n');
-
-
 
 %% KNN
 if run_knn
@@ -94,8 +92,10 @@ end
 %% Artificial Neural Network
 if run_ann
     fprintf('\nRunning Neural Network...\n');
-    accuracy_neural = 0;
-    fprintf('Neural Network accuracy = %.2f percent!\n', accuracy_neural);
+    [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training, Y_training, X_test, Y_test );
+    fprintf('Neural Network accuracy at training = %.2f percent!\n', training_accuracy);
+    fprintf('Neural Network accuracy at test = %.2f percent!\n', test_accuracy);
+    plot_learning_curve(learning_curve, 'Artificial Neural Network');
     fprintf('Press any key to continue...\n');
     pause;
 end
