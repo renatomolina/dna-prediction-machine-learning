@@ -27,23 +27,24 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         theta = -1 + (1-(-1)).*rand(s,s, L-1);
         % Vetor h - resultado de cada amostra
         h = zeros(m,K);
+        % classificação de cada Amostra
+        y = y_vetorization(Y_local_training, s);
         % Para cada Amostra
         for i=1:m
-            x = X_local_training(i,:);
-            y = y_vetorization(Y_local_training(i), s);
+            x = X_local_training(i,:);            
             % Forward Propagation
             a = ann_forward(x, theta, L, s);
             h(i, :) = a(:,:,L);
             % Backpropagation
-            sigma = ann_backpropagation(a, y, theta, L, s);
+            sigma = ann_backpropagation(a, y(i), theta, L, s);
             % Acumular Derivadas parciais
             for l=(1:L-1)
                 delta(:, :, l) = delta(:, :, l) + a(:, :, l)' * sigma(:, :, l+1);
             end
             lambda = 1;
-            [J, gradient] = ann_cost_function(h, y, theta, L, lambda);
-            options = optimset('GradObj', 'on', 'MaxIter', 400);
-            [theta, J] = fminunc(@(t)(ann_cost_function(h, Y_local_training, theta, L, lambda)), theta, options);
+            [J, gradient] = ann_cost_function(h, y, theta, L, lambda, i);
+            %options = optimset('GradObj', 'on', 'MaxIter', 400);
+            %[theta, J] = fminunc(@(t)(ann_cost_function(h, y, theta, L, lambda)), theta, options);
         end
 
         %% Test with Training Set
