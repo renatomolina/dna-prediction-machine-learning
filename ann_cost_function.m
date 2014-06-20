@@ -1,9 +1,9 @@
-function [J, grad]= ann_cost_function(H, Y, theta, L, lambda, m)
+function [J, grad]= ann_cost_function(H, Y, theta,delta, L, lambda, m)
     %m = size(H, 1);
     J = 0;
     %grad = zeros(size(theta));
     %grad = cell(1,L-1);
-    grad = 0;
+    %grad = 0;
     
     %% Calculando J
     a = -Y(1:m, :) * log(H(1:m, :)');
@@ -13,6 +13,9 @@ function [J, grad]= ann_cost_function(H, Y, theta, L, lambda, m)
     
     
     %% Calculando Gradiente ANN - página 9 slide[1,1]
+    grad = zeros(size(delta));
+    grad = 1/m * delta + (lambda * theta);
+    grad(:, 1, :) = 1/m * delta(:, 1, :);
     %for l=1:L-1
     %    grad{l} = (1/m) .* delta{l} + (lambda * theta{l});
     %end
