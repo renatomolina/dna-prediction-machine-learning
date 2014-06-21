@@ -5,7 +5,7 @@ function p = logistic_prediction( theta, X )
 
     H = X * theta;
     for i = 1:m
-        if logistic_sigmoid(H(i)) >= 0.5
+        if sigmoid(H(i)) >= 0.5
             p(i) = 1;
         else
             p(i) = 0;

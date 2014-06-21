@@ -1,6 +1,4 @@
 function [ training_accuracy, test_accuracy, learning_curve ] = logistic_regression_reg( X_training, Y_training, X_test, Y_test )
-%LOGISTIC_REGRESSION_REG Summary of this function goes here
-%   Detailed explanation goes here
     learning_curve = zeros(10,2);
     X_test = [ones(size(X_test,1),1) X_test];
     
@@ -29,5 +27,4 @@ function [ training_accuracy, test_accuracy, learning_curve ] = logistic_regress
         test_accuracy = mean(double(result == Y_test)) * 100;
         
     end
-    
 end
