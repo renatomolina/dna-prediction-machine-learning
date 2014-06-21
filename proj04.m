@@ -56,19 +56,19 @@ if run_knn
     teste3 = X(Y==3,:);
     teste3_Y = ones(size(teste3))*3;
     %% Running the KNN for the entire set of training and test data
-    [accuracy_knn1,C,I] = KNN_main(X_training,Y_training, X_test, Y_test);
+    [accuracy_knn1,C,I] = KNN_main(X_training,Y_training, X_test, Y_test, 'All');
     fprintf('KNN mean accuracy  = %.2f percent!\n', accuracy_knn1);
-    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
+    fprintf('Greatest accuracy was %.2f for K=%d\n\n',C,((I*2)+1));
     %% Running the KNN for each class and finding the respective accuracy.
-    [accuracy_knn1,C,I] = KNN_main(X,Y, teste1, teste1_Y );
+    [accuracy_knn1,C,I] = KNN_main(X,Y, teste1, teste1_Y, 'Class IE' );
     fprintf('KNN mean accuracy for class IE = %.2f percent!\n', accuracy_knn1);
-    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
-    [accuracy_knn2,C,I] = KNN_main(X,Y, teste2, teste2_Y );
+    fprintf('Greatest accuracy was %.2f for K=%d\n\n',C,((I*2)+1));
+    [accuracy_knn2,C,I] = KNN_main(X,Y, teste2, teste2_Y, 'Class EI' );
     fprintf('KNN mean accuracy for class EI = %.2f percent!\n', accuracy_knn2);
-    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
-    [accuracy_knn3,C,I] = KNN_main(X,Y, teste3, teste3_Y );
+    fprintf('Greatest accuracy was %.2f for K=%d\n\n',C,((I*2)+1));
+    [accuracy_knn3,C,I] = KNN_main(X,Y, teste3, teste3_Y, 'Class N' );
     fprintf('KNN mean accuracy for class N = %.2f percent!\n', accuracy_knn3);
-    fprintf('Greatest accuracy was %.2f for K=%d\n',C,((I*2)+1));
+    fprintf('Greatest accuracy was %.2f for K=%d\n\n',C,((I*2)+1));
     fprintf('Press any key to continue...\n');
     pause;
 end
