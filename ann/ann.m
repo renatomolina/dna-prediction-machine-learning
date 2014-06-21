@@ -46,8 +46,8 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         % Otimizando Theta
         lambda = 1;
         [J, gradient] = ann_cost_function(h, Y_training, theta, delta, L, lambda, i);
-        %options = optimset('GradObj', 'on', 'MaxIter', 400, 'Display', 'off');
-        %[theta, J] = fminunc(@(t)(ann_cost_function(h, Y_training, theta, delta, L, lambda, i)), theta, options);
+        options = optimset('GradObj', 'on', 'MaxIter', 400, 'Display', 'off');
+        [theta, J] = fminunc(@(t)(ann_cost_function(h, Y_training, theta, delta, L, lambda, i)), theta, options);
         fprintf('End - Training sample %d!\n', i);
     end
     
