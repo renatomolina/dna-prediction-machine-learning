@@ -45,28 +45,30 @@ function [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training,
         end
         % Otimizando Theta
         lambda = 1;
-        [J, gradient] = ann_cost_function(h, y, theta, delta, L, lambda, i);
-        options = optimset('GradObj', 'on', 'MaxIter', 400, 'Display', 'off');
-        [theta, J] = fminunc(@(t)(ann_cost_function(h, Y_training, theta, delta, L, lambda, i)), theta, options);
+        [J, gradient] = ann_cost_function(h, Y_training, theta, delta, L, lambda, i);
+        %options = optimset('GradObj', 'on', 'MaxIter', 400, 'Display', 'off');
+        %[theta, J] = fminunc(@(t)(ann_cost_function(h, Y_training, theta, delta, L, lambda, i)), theta, options);
         fprintf('End - Training sample %d!\n', i);
     end
     
     %% Test with Training Set
-    result = zeros(m1,K);
+    result = zeros(K,m1);
     for i=1:m1
         a = ann_forward(X_training(i, :), theta, L, s);
-        result(i, :) = a(:,:,L)';
+        result(:, i) = a(:,:,L);
+        %binarização de result?
     end
-    learning_curve(i,1) = sum(result~=Y_training);
-    training_accuracy = sum(result==Y_training)/size(y,1)*100;
+    %learning_curve(i,1) = sum(result~=Y_training);
+    training_accuracy = sum(sum(result==Y_training(1:m1, :)'))/m1*100;
         
     %% Test with Test Set
-    result = zeros(m2,K);
+    result = zeros(K,m2);
     for i=1:m2
         a = ann_forward(X_test(i, :), theta, L, s);
-        result(i, :) = a(:,:,L)';
+        result(:, i) = a(:,:,L);
+        %binarização de result?
     end
-    learning_curve(i,2) = sum(result~=Y_test);
-    test_accuracy = sum(result==Y_test)/size(Y_test,1)*100;
+    %learning_curve(i,2) = sum(result~=Y_test);
+    test_accuracy = sum(sum(result==Y_test(1:m2, :)'))/m2*100;
 
 end
