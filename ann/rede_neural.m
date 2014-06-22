@@ -1,7 +1,7 @@
-function [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test)
+function [ weights, out_weights, total_error ] = rede_neural( X_training, Y_training, X_test, Y_test)
     
-
-    epoch = 1000; %Número de épocas (treinamentos)
+    epoch = 100; %Número de épocas (treinamentos)
+    
     [m,n] = size(X_training);
     weights  = -1 + (1-(-1)).*rand(n,n); %Matriz de pesos da entrada para camada intermediaria
     out_weights = -1 + (1-(-1)).*rand(3,n); %Matriz de pesos de inter-saida
@@ -22,12 +22,13 @@ function [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test)
     %======Taxa de Aprendizagem e Momentum======%
     learn_rate=0.05;
     momentum = 0.9;
+    total_error = zeros(epoch,2);
     for u=1:epoch
         
         fprintf('\nTreinando a epoch %d\n',u);
          [treino,idx] = datasample(X_training,size(X_training,1)); %Embaralha o treinamento pra não viciar a rede
          Y_treino = Y_training(idx);
-        
+        erro = 0;
         for k=1:m
             input = treino(k,:); %Camada de entrada
             %==========Forward Propagation==============%
@@ -43,7 +44,7 @@ function [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test)
                 Saida(i) = 1/(1+exp(-wSaida(i)));
             end
            
-           
+            erro = erro + (sum( classes(Y_treino(k),i) -Saida(i))^2)/2;
             for i=1:3
                 error_out(i) = Saida(i)*( 1-Saida(i))*(classes(Y_treino(k),i) -Saida(i));
                 difference_out(i,:) = learn_rate* error_out(i)* Layer;
@@ -61,6 +62,8 @@ function [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test)
 
            
         end
+        total_error(u,1) = erro;
+        total_error(u,2) = u;
         %=========Inicio do teste da Epoch=========% 
         [x,y] = size(X_test);
         hit = 0;
@@ -84,6 +87,6 @@ function [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test)
         fprintf('\nNumber of hits for Epoch %d: %d/%d',u,hit,x);
         fprintf('\nAccuracy : %g',(hit/x)*100);
     end
-   accuracy = ((hit/x)*100);
+    
    
 end
