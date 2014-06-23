@@ -1,5 +1,4 @@
-
-function [ maxACC ] = SVM(X, Y, parameters)
+function [ maxACC ] = svm(X, Y, parameters)
 
     s = size(X,1);
     indices = crossvalind('Kfold',s,10);

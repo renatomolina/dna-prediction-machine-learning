@@ -2,9 +2,9 @@
 clear ; close all; clc
 
 %% Debug
-base =4;
+base = 4;
 run_knn = false;
-run_logistic = false;
+run_logistic =  false;
 run_logistic_reg = false;
 run_naive = false;
 run_ann = false;
@@ -105,28 +105,34 @@ end
 
 %% Naive Bayes
 if run_naive
+    tic
     fprintf('\nRunning Naive Bayes...\n');
     [ training_accuracy, test_accuracy, learning_curve ] = naive_bayes(X_training,Y_training, X_test, Y_test);
     fprintf('Naive Bayes accuracy with training data = %.2f percent!\n', training_accuracy);
     fprintf('Naive Bayes accuracy with test data = %.2f percent!\n', test_accuracy);
-    plot_learning_curve(learning_curve, 'Naive Bayes');
+    %%plot_learning_curve(learning_curve, 'Naive Bayes');
+    toc
 end
 
 %% Artificial Neural Network
 if run_ann
+    tic
     fprintf('\nRunning Neural Network...\n');
-    [ training_accuracy, test_accuracy, learning_curve ] = ann( X_training, Y_training, X_test, Y_test );
-    fprintf('Neural Network accuracy at training = %.2f percent!\n', training_accuracy);
-    fprintf('Neural Network accuracy at test = %.2f percent!\n', test_accuracy);
-    plot_learning_curve(learning_curve, 'Artificial Neural Network');
+    [ accuracy ] = rede_neural( X_training, Y_training, X_test, Y_test );
+    fprintf('Neural Network accuracy at training = %.2f percent!\n', accuracy);
+    toc
+    %fprintf('Neural Network accuracy at test = %.2f percent!\n', test_accuracy);
+    %plot_learning_curve(learning_curve, 'Artificial Neural Network');
 end
 
 %% SVM
 if run_svm
+    tic
     fprintf('\nRunning SVM...\n');
-    parameters = '-t 1 -r 32 -g 4 -q';
-    accuracy_svm = SVM(X, Y, parameters);
+    parameters = '-q';
+    [accuracy_svm] = svm(X, Y, parameters);
     fprintf('SVM accuracy = %.2f\n',accuracy_svm);
+    toc
 end
 
 %% Finishing

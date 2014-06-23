@@ -57,10 +57,7 @@ function [ weights, out_weights, total_error ] = rede_neural( X_training, Y_trai
             end
             out_weights = out_weights+difference_out;
             weights = weights+difference;
-
-                
-
-           
+    
         end
         total_error(u,1) = erro;
         total_error(u,2) = u;
